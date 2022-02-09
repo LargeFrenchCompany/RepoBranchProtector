@@ -42,7 +42,7 @@ GITHUB_WEBHOOK_SECRET=<your_webhook_secret>
 GITHUB_CLIENT_ID=<your_client_id>
 GITHUB_CLIENT_SECRET=<your_webhook_secret>
 ```
->You can find the GitHub App ID and Client ID in your GitHub App's configuration webpage. You should have noted your Client Secret and Webhook Secret from the previous step. In order to obtain the raw RSA Private Key value, you can use a text editor or a command suech as ```cat path/to/your/private-key.pem``` to read the `.pem` file you downloaded during the GitHub App creation stage.
+>You can find the GitHub App ID and Client ID in your GitHub App's configuration webpage. You should have noted your Client Secret and Webhook Secret from the previous step. In order to obtain the raw RSA Private Key value, you can use a text editor or a command such as ```cat path/to/your/private-key.pem``` to read the `.pem` file you downloaded during the GitHub App creation stage.
 
 3. Make sure you have a recent version of [Node.js](https://nodejs.org/en/download/) installed and run the server with the following command:
 ```

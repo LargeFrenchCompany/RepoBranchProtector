@@ -21,7 +21,7 @@ function createInitialBranch(octokit, payload){
     let buff = new Buffer(data);
     let base64data = buff.toString('base64');
 
-    octokit.rest.repos.createOrUpdateFileContents({
+    return octokit.rest.repos.createOrUpdateFileContents({
         owner: payload.repository.owner.login,
         repo: payload.repository.name,
         path: 'Readme.md',
@@ -32,7 +32,7 @@ function createInitialBranch(octokit, payload){
 
 // Apply Branch protection rules to the main branch
 function updateBranchProtection(octokit, payload){
-    octokit.rest.repos.updateBranchProtection({
+    return octokit.rest.repos.updateBranchProtection({
         owner: payload.repository.owner.login,
         repo: payload.repository.name,
         branch: 'main',
@@ -49,7 +49,7 @@ function updateBranchProtection(octokit, payload){
 
 // Create an issue and mention the Owner to explain the added protections
 function createIssueMention(octokit, payload){
-    octokit.rest.issues.create({
+    return octokit.rest.issues.create({
         owner: payload.repository.owner.login,
         repo: payload.repository.name,
         title: "The main branch is now protected!",
@@ -61,15 +61,15 @@ function createIssueMention(octokit, payload){
     });
 }
 
-app.webhooks.on("repository.created", ({ octokit, payload }) => {
+app.webhooks.on("repository.created", async ({ octokit, payload }) => {
     console.log('A new repositoriy was created!');
 
     console.log('Creating initial branch by pushing a Readme.md file...');
-    createInitialBranch(octokit, payload);
+    await createInitialBranch(octokit, payload);
     console.log('Applying protections to the main branch...');
-    updateBranchProtection(octokit, payload);
+    await updateBranchProtection(octokit, payload);
     console.log('Notifying the user...');
-    createIssueMention(octokit, payload);
+    await createIssueMention(octokit, payload);
 });
 
 // Your app can now receive webhook events at `/api/github/webhooks`
