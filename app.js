@@ -37,7 +37,7 @@ function updateBranchProtection(octokit, payload){
         repo: payload.repository.name,
         branch: 'main',
         required_status_checks: null,
-        enforce_admins: null,
+        enforce_admins: true,
         required_pull_request_reviews: {
             required_approving_review_count: 1,
             dismiss_stale_reviews: true
@@ -63,7 +63,6 @@ function createIssueMention(octokit, payload){
 
 app.webhooks.on("repository.created", async ({ octokit, payload }) => {
     console.log('A new repositoriy was created!');
-
     console.log('Creating initial branch by pushing a Readme.md file...');
     await createInitialBranch(octokit, payload);
     console.log('Applying protections to the main branch...');
@@ -73,4 +72,5 @@ app.webhooks.on("repository.created", async ({ octokit, payload }) => {
 });
 
 // Your app can now receive webhook events at `/api/github/webhooks`
+console.log('Listening on port 3000 at /api/github/webhooks...');
 require("http").createServer(createNodeMiddleware(app)).listen(3000);
